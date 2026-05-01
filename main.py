@@ -4,8 +4,13 @@ from food import Food
 from scoreboard import Scoreboard
 import time
 
+SCREEN_WIDTH = 900
+SCREEN_HEIGHT = 700
+WALL_X_LIMIT = 430
+WALL_Y_LIMIT = 330
+
 screen = Screen()
-screen.setup(width=600, height=600)
+screen.setup(width=SCREEN_WIDTH, height=SCREEN_HEIGHT)
 screen.bgcolor("black")
 screen.title("My Snake Game")
 screen.tracer(0)
@@ -53,7 +58,12 @@ while game_is_one:
         scoreboard.increase_score()
 
     #Detect collision with wall
-    if snake.head.xcor() > 280 or snake.head.xcor() < -280 or snake.head.ycor() > 280 or snake.head.ycor() < -280:
+    if (
+        snake.head.xcor() > WALL_X_LIMIT
+        or snake.head.xcor() < -WALL_X_LIMIT
+        or snake.head.ycor() > WALL_Y_LIMIT
+        or snake.head.ycor() < -WALL_Y_LIMIT
+    ):
         #game_is_one = False
         #scoreboard.game_over()
         scoreboard.reset()

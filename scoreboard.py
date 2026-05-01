@@ -12,13 +12,23 @@ class Scoreboard(Turtle):
         self.high_score = self.load_high_score()
         self.color("white")
         self.penup()
-        self.goto(0, 270)
+        self.goto(0, 320)
         self.hideturtle()
+        self.player_label = Turtle()
+        self.player_label.hideturtle()
+        self.player_label.color("white")
+        self.player_label.penup()
+        self.player_label.goto(-435, 295)
+        self.show_player_name()
         self.update_scoreboard()
 
     def update_scoreboard(self):
         self.clear()
         self.write(f"Score : {self.score}     High Score : {self.high_score}", align=ALIGNMENT, font=FONT)
+
+    def show_player_name(self):
+        self.player_label.clear()
+        self.player_label.write(f"Player: {self.player_name}", align="left", font=("Courier", 14, "normal"))
 
     def load_high_score(self):
         try:
