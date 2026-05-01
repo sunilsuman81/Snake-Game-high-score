@@ -10,9 +10,15 @@ screen.bgcolor("black")
 screen.title("My Snake Game")
 screen.tracer(0)
 
+player_name = screen.textinput("Player Name", "Enter your name before starting:")
+if not player_name or not player_name.strip():
+    player_name = "Player"
+else:
+    player_name = player_name.strip()
+
 snake = Snake()
 food = Food()
-scoreboard = Scoreboard()
+scoreboard = Scoreboard(player_name)
 
 screen.listen()
 screen.onkey(snake.up, "Up")

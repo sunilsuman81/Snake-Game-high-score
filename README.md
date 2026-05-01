@@ -1,52 +1,57 @@
 # Snake Game with High Score Tracking
 
 A classic Snake game built with Python `turtle`.  
-The game stores the highest score in `data.txt` and appends score history entries to `record.txt`.
+The game prompts for player name at startup, stores the highest score in `data.txt`, and appends per-round score history entries (`name : points`) to `record.txt`.
 
 ## Features
 
 - Real-time snake movement using arrow keys
+- Player name input before gameplay starts
 - Food spawning at random coordinates
 - Collision detection for:
   - walls
   - snake tail
 - Automatic snake reset after collision (instead of closing game)
 - Persistent high score saved across runs
-- Score history logging in a separate record file
+- Score history logging with player name and points after each game-over round
 
 ## Technical Details
 
 - **Language:** Python
 - **Graphics Library:** `turtle` (standard library)
 - **Core Modules:**
-  - `main.py` -> game loop, event binding, collision checks
+  - `main.py` -> startup player-name prompt, game loop, event binding, collision checks
   - `snake.py` -> snake body creation, movement, direction control, reset
   - `food.py` -> food object and random repositioning
-  - `scoreboard.py` -> score rendering, high-score persistence, history logging
+  - `scoreboard.py` -> score rendering, high-score persistence, per-round record logging (`name : score`)
 - **Data Files:**
   - `data.txt` -> stores the current high score
-  - `record.txt` -> appends each newly achieved high score
+  - `record.txt` -> appends each completed round score with player name
 
 ## Game Flow Chart
 
 ```mermaid
 flowchart TD
     A[Start Program] --> B[Create Screen]
-    B --> C[Create Snake, Food, Scoreboard]
-    C --> D[Bind Arrow Keys]
-    D --> E[Game Loop]
-    E --> F[Move Snake]
-    F --> G{Food Collision?}
-    G -- Yes --> H[Refresh Food]
-    H --> I[Extend Snake]
-    I --> J[Increase Score]
-    J --> K{Wall or Tail Collision?}
-    G -- No --> K
-    K -- Yes --> L[Update High Score Files]
-    L --> M[Reset Score]
-    M --> N[Reset Snake]
-    N --> E
-    K -- No --> E
+    B --> C[Prompt Player Name]
+    C --> D[Create Snake, Food, Scoreboard]
+    D --> E[Bind Arrow Keys]
+    E --> F[Game Loop]
+    F --> G[Move Snake]
+    G --> H{Food Collision?}
+    H -- Yes --> I[Refresh Food]
+    I --> J[Extend Snake]
+    J --> K[Increase Score]
+    K --> L{Wall or Tail Collision?}
+    H -- No --> L
+    L -- Yes --> M[Append name : score to record.txt]
+    M --> N{New High Score?}
+    N -- Yes --> O[Update data.txt]
+    N -- No --> P[Reset Score]
+    O --> P
+    P --> Q[Reset Snake]
+    Q --> F
+    L -- No --> F
 ```
 
 ## Python Version
@@ -82,14 +87,20 @@ python main.py
 - `Left Arrow` -> move left
 - `Right Arrow` -> move right
 
+## Player Name Input
+
+- At startup, the game asks for player name in a popup dialog.
+- If no name is entered, default value is `Player`.
+- That name is used when writing entries to `record.txt`.
+
 ## Scoring and Persistence
 
 - Current score increases when snake eats food.
 - On collision with wall or tail:
+  - current round score is appended to `record.txt` as `player_name : score` (for score > 0)
   - game score resets to `0`
   - if current score is greater than saved high score:
     - `data.txt` is updated with new high score
-    - `record.txt` gets a new entry
 
 ## Notes
 
