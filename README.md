@@ -1,12 +1,13 @@
 # Snake Game with High Score Tracking
 
 A classic Snake game built with Python `turtle`.  
-The game prompts for player name at startup, stores the highest score in `data.txt`, and appends per-round score history entries (`name : points`) to `record.txt`.
+The game prompts for player name and snake color at startup, stores the highest score in `data.txt`, and appends per-round score history entries (`name : points`) to `record.txt`.
 
 ## Features
 
 - Real-time snake movement using arrow keys
 - Player name input before gameplay starts
+- Snake color selection before gameplay starts
 - Food spawning at random coordinates
 - Collision detection for:
   - walls
@@ -20,8 +21,8 @@ The game prompts for player name at startup, stores the highest score in `data.t
 - **Language:** Python
 - **Graphics Library:** `turtle` (standard library)
 - **Core Modules:**
-  - `main.py` -> startup player-name prompt, game loop, event binding, collision checks
-  - `snake.py` -> snake body creation, movement, direction control, reset
+  - `main.py` -> startup player-name/color prompts, game loop, event binding, collision checks
+  - `snake.py` -> snake body creation, movement, direction control, reset, selected color rendering
   - `food.py` -> food object and random repositioning
   - `scoreboard.py` -> score rendering, high-score persistence, per-round record logging (`name : score`)
 - **Data Files:**
@@ -34,24 +35,25 @@ The game prompts for player name at startup, stores the highest score in `data.t
 flowchart TD
     A[Start Program] --> B[Create Screen]
     B --> C[Prompt Player Name]
-    C --> D[Create Snake, Food, Scoreboard]
-    D --> E[Bind Arrow Keys]
-    E --> F[Game Loop]
-    F --> G[Move Snake]
-    G --> H{Food Collision?}
-    H -- Yes --> I[Refresh Food]
-    I --> J[Extend Snake]
-    J --> K[Increase Score]
-    K --> L{Wall or Tail Collision?}
-    H -- No --> L
-    L -- Yes --> M[Append name : score to record.txt]
-    M --> N{New High Score?}
-    N -- Yes --> O[Update data.txt]
-    N -- No --> P[Reset Score]
-    O --> P
-    P --> Q[Reset Snake]
-    Q --> F
-    L -- No --> F
+    C --> D[Prompt Snake Color]
+    D --> E[Create Snake with Selected Color, Food, Scoreboard]
+    E --> F[Bind Arrow Keys]
+    F --> G[Game Loop]
+    G --> H[Move Snake]
+    H --> I{Food Collision?}
+    I -- Yes --> J[Refresh Food]
+    J --> K[Extend Snake]
+    K --> L[Increase Score]
+    L --> M{Wall or Tail Collision?}
+    I -- No --> M
+    M -- Yes --> N[Append name : score to record.txt]
+    N --> O{New High Score?}
+    O -- Yes --> P[Update data.txt]
+    O -- No --> Q[Reset Score]
+    P --> Q
+    Q --> R[Reset Snake with Same Selected Color]
+    R --> G
+    M -- No --> G
 ```
 
 ## Python Version
@@ -92,6 +94,13 @@ python main.py
 - At startup, the game asks for player name in a popup dialog.
 - If no name is entered, default value is `Player`.
 - That name is used when writing entries to `record.txt`.
+
+## Snake Color Selection
+
+- After entering player name, the game asks for snake color.
+- Allowed colors: `yellow`, `green`, `blue`, `red`, `white`, `purple`, `orange`, `pink`, `cyan`.
+- If input is empty or not in the allowed list, default color is `yellow`.
+- The selected color is applied to all snake segments, including after reset.
 
 ## Scoring and Persistence
 

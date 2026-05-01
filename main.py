@@ -10,13 +10,26 @@ screen.bgcolor("black")
 screen.title("My Snake Game")
 screen.tracer(0)
 
+COLOR_OPTIONS = {"yellow", "green", "blue", "red", "white", "purple", "orange", "pink", "cyan"}
+
 player_name = screen.textinput("Player Name", "Enter your name before starting:")
 if not player_name or not player_name.strip():
     player_name = "Player"
 else:
     player_name = player_name.strip()
 
-snake = Snake()
+snake_color = screen.textinput(
+    "Snake Color",
+    "Choose snake color (yellow, green, blue, red, white, purple, orange, pink, cyan):",
+)
+if not snake_color or not snake_color.strip():
+    snake_color = "yellow"
+else:
+    snake_color = snake_color.strip().lower()
+    if snake_color not in COLOR_OPTIONS:
+        snake_color = "yellow"
+
+snake = Snake(snake_color)
 food = Food()
 scoreboard = Scoreboard(player_name)
 
