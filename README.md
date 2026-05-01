@@ -8,6 +8,7 @@ The game prompts for player name and snake color at startup, stores the highest 
 - Real-time snake movement using arrow keys
 - Player name input before gameplay starts
 - Snake color selection before gameplay starts
+- Larger game board for improved HUD spacing
 - Food spawning at random coordinates
 - Collision detection for:
   - walls
@@ -23,8 +24,8 @@ The game prompts for player name and snake color at startup, stores the highest 
 - **Core Modules:**
   - `main.py` -> startup player-name/color prompts, game loop, event binding, collision checks
   - `snake.py` -> snake body creation, movement, direction control, reset, selected color rendering
-  - `food.py` -> food object and random repositioning
-  - `scoreboard.py` -> score rendering, high-score persistence, per-round record logging (`name : score`)
+  - `food.py` -> food object and random repositioning within board-safe spawn limits
+  - `scoreboard.py` -> score rendering, player label rendering, high-score persistence, per-round record logging (`name : score`)
 - **Data Files:**
   - `data.txt` -> stores the current high score
   - `record.txt` -> appends each completed round score with player name
@@ -88,6 +89,13 @@ python main.py
 - `Down Arrow` -> move down
 - `Left Arrow` -> move left
 - `Right Arrow` -> move right
+
+## Board and HUD Layout
+
+- Game window size is `900 x 700`.
+- Score and high score are shown at the top-center.
+- Player name is shown at top-left on a separate line to avoid overlap.
+- Wall collision limits and food spawn limits are expanded to match the larger board.
 
 ## Player Name Input
 
